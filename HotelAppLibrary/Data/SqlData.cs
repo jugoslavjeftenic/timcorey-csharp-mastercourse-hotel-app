@@ -38,11 +38,17 @@ namespace HotelAppLibrary.Data
 				{
 					roomId = availableRooms.First().Id,
 					guestId = guest.Id,
-					startDate = startDate,
-					endDate = endDate,
+					startDate,
+					endDate,
 					totalCost = timeStaying.Days * roomType.Price
 				},
 				_connectionStringName, true);
+		}
+
+		public List<BookingFullModel> SearchBookings(string lastName)
+		{
+			return _db.LoadData<BookingFullModel, dynamic>("dbo.spBookings_Search",
+				new { lastName, startDate = DateTime.Now.Date }, _connectionStringName, true);
 		}
 	}
 }
