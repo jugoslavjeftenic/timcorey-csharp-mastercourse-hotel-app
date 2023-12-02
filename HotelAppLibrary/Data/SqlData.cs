@@ -3,7 +3,7 @@ using HotelAppLibrary.Models;
 
 namespace HotelAppLibrary.Data
 {
-	public class SqlData
+	public class SqlData : IDatabaseData
 	{
 		private readonly ISqlDataAccess _db;
 		private const string _connectionStringName = "SqlDb";
@@ -49,6 +49,12 @@ namespace HotelAppLibrary.Data
 		{
 			return _db.LoadData<BookingFullModel, dynamic>("dbo.spBookings_Search",
 				new { lastName, startDate = DateTime.Now.Date }, _connectionStringName, true);
+		}
+
+		public void CheckInGuest(int bookingId)
+		{
+			_db.SaveData("dbo.spBookings_CheckIn",
+				new { Id = bookingId }, _connectionStringName, true);
 		}
 	}
 }
