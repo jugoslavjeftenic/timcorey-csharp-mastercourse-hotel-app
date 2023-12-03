@@ -1,0 +1,24 @@
+﻿@page
+@model HotelApp.Web.Pages.BookRoomModel
+@{
+	ViewData["Title"] = "Book A Room";
+}
+
+<h1>Book A Room</h1>
+
+<h2>@Model.RoomType?.Title</h2>
+<p>@Model.RoomType?.Description</p>
+
+<form method="post">
+	<div class="form-group">
+		<label asp-for="@Model.FirstName"></label>
+		<input asp-for="@Model.FirstName" />
+	</div>
+
+	<div class="form-group">
+		<label asp-for="@Model.LastName"></label>
+		<input asp-for="@Model.LastName" />
+	</div>
+
+	<button class="btn btn-primary" type="submit">Book</button>
+</form>
