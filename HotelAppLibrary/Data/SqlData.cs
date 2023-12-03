@@ -30,7 +30,7 @@ namespace HotelAppLibrary.Data
 
 			TimeSpan timeStaying = endDate.Date.Subtract(startDate.Date);
 
-			List<RoomModel> availableRooms = _db.LoadData<RoomModel, dynamic>("dbo.spRoomTypes_GetAvailableTypes",
+			List<RoomModel> availableRooms = _db.LoadData<RoomModel, dynamic>("dbo.spRooms_GetAvailableRooms",
 				new { startDate, endDate, roomTypeId }, _connectionStringName, true);
 
 			_db.SaveData("dbo.spBookings_Insert",
@@ -55,6 +55,12 @@ namespace HotelAppLibrary.Data
 		{
 			_db.SaveData("dbo.spBookings_CheckIn",
 				new { Id = bookingId }, _connectionStringName, true);
+		}
+
+		public RoomTypeModel GetRoomTypeById(int roomTypeId)
+		{
+			return _db.LoadData<RoomTypeModel, dynamic>("dbo.spRoomTypes_GetRoomTypeById",
+				new { roomTypeId }, _connectionStringName, true).First();
 		}
 	}
 }
