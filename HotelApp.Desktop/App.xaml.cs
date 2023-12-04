@@ -1,4 +1,5 @@
-﻿using HotelAppLibrary.Database;
+﻿using HotelAppLibrary.Data;
+using HotelAppLibrary.Database;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -24,6 +25,7 @@ namespace HotelApp.Desktop
 			var services = new ServiceCollection();
 			services.AddTransient<MainWindow>();
 			services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+			services.AddTransient<IDatabaseData, SqlData>();
 
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
