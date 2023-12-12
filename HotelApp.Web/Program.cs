@@ -13,6 +13,7 @@ namespace HotelApp.Web
 			builder.Services.AddRazorPages();
 			builder.Services.AddTransient<IDatabaseData, SqlData>();
 			builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+			builder.Services.AddTransient<ISqliteDataAccess, SqliteDataAccess>();
 
 			var app = builder.Build();
 
