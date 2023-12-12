@@ -73,7 +73,12 @@ namespace HotelAppLibrary.Data
 
 		public void CheckInGuest(int bookingId)
 		{
-			throw new NotImplementedException();
+			string sql = @"update Bookings
+						   set CheckedIn = 1
+						   where Id = @Id;";
+			_db.SaveData(sql,
+				new { Id = bookingId },
+				_connectionStringName);
 		}
 
 		public List<RoomTypeModel> GetAvailableRoomTypes(DateTime startDate, DateTime endDate)
@@ -110,7 +115,25 @@ namespace HotelAppLibrary.Data
 
 		public List<BookingFullModel> SearchBookings(string lastName)
 		{
-			throw new NotImplementedException();
+			string sql = @"select [b].[Id], [b].[RoomId], [b].[GuestId], [b].[StartDate], [b].[EndDate],
+						   [b].[CheckedIn], [b].[TotalCost], [g].[FirstName], [g].[LastName],
+						   [r].[RoomNumber], [r].[RoomTypeId], [rt].[Title], [rt].[Description], [rt].[Price]
+						   from Bookings b
+						   inner join Guests g on b.GuestId = g.Id
+						   inner join Rooms r on b.RoomId = r.Id
+						   inner join RoomTypes rt on r.RoomTypeId = rt.Id
+						   where b.StartDate = @startDate and g.LastName = @lastName;";
+			var output = _db.LoadData<BookingFullModel, dynamic>(sql,
+				new { lastName, startDate = DateTime.Now.Date },
+				_connectionStringName);
+
+			output.ForEach(x =>
+			{
+				x.Price /= 100;
+				x.TotalCost /= 100;
+			});
+
+			return output;
 		}
 	}
 }
